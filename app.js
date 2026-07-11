@@ -120,7 +120,7 @@ function renderTable(rows){
  document.querySelectorAll("[data-row]").forEach(r=>r.addEventListener("click",()=>openPlayer(Number(r.dataset.row))));
 }
 function render(){
- $("#brandSub").textContent=state.mode==="coach"?"Version 5.1 Mobile · Coach Mode uses full football language":"Version 5.1 Mobile · Analyst Mode uses compact metric abbreviations";
+ $("#brandSub").textContent=state.mode==="coach"?"Version 5.2 Mobile · Coach Mode uses full football language":"Version 5.2 Mobile · Analyst Mode uses compact metric abbreviations";
  $("#modeBtn").textContent=state.mode==="coach"?"Coach Mode":"Analyst Mode";
  document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b.dataset.nav===state.page));
  groups();

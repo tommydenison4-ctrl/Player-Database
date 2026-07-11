@@ -1,22 +1,13 @@
-ULM Personnel Intelligence Platform 5.1 Mobile
+ULM Personnel Intelligence Platform 5.2 Mobile
 
-Mobile and tablet update:
-- Full-screen player profiles on phones
-- Player photo and bio stack vertically
-- Larger touch targets
-- Horizontally scrollable profile tabs
-- Active tab automatically scrolls into view
-- Two-column mobile stat cards
-- Responsive player cards
-- Mobile-safe filters and navigation
-- Route diagrams scale to phone width
-- Route detail panel moves below the drawing
-- Route and game tables scroll horizontally
-- Trend charts scale responsively
-- Coverage cards use a single mobile column
-- Comparison becomes full-screen on phones
-- Glossary becomes full-screen on phones
-- Background scrolling is locked while a drawer is open
-- iPhone safe dynamic viewport height support
+Corrected PFF touchdown parsing across:
+- QB Man vs Zone
+- QB coverage families
+- Receiver Man vs Zone
+- Receiver coverage families
+- Routes Thrown
+- Favorite Targets
 
+The PFF touchdown field stores the scoring player's code rather than a numeric flag.
+All Version 5.1 mobile improvements remain.
 Open index.html first.
