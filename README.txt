@@ -1,22 +1,22 @@
-ULM Personnel Intelligence Platform 5.0
+ULM Personnel Intelligence Platform 5.1 Mobile
 
-Landing page:
-- Removed the decorative checkmarks
-- Replaced them with real database values:
-  36 player profiles
-  12 games indexed
-  4,979 offensive snaps
-  5,200 defensive snaps
-- Removed the oversized glossary landing-page module
-- Landing page now focuses on Offense and Defense
+Mobile and tablet update:
+- Full-screen player profiles on phones
+- Player photo and bio stack vertically
+- Larger touch targets
+- Horizontally scrollable profile tabs
+- Active tab automatically scrolls into view
+- Two-column mobile stat cards
+- Responsive player cards
+- Mobile-safe filters and navigation
+- Route diagrams scale to phone width
+- Route detail panel moves below the drawing
+- Route and game tables scroll horizontally
+- Trend charts scale responsively
+- Coverage cards use a single mobile column
+- Comparison becomes full-screen on phones
+- Glossary becomes full-screen on phones
+- Background scrolling is locked while a drawer is open
+- iPhone safe dynamic viewport height support
 
-Glossary:
-- Added a persistent Glossary button beside Coach/Analyst Mode
-- Glossary opens in a searchable slide-out drawer
-- Includes PFF and football abbreviations
-- Coach Mode shows full metric names first
-- Analyst Mode shows abbreviations first
-- Available from offense and defense without leaving the current page
-
-Existing player profiles, routes, coverage splits, comparisons and game logs remain.
 Open index.html first.

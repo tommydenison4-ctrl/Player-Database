@@ -120,7 +120,7 @@ function renderTable(rows){
  document.querySelectorAll("[data-row]").forEach(r=>r.addEventListener("click",()=>openPlayer(Number(r.dataset.row))));
 }
 function render(){
- $("#brandSub").textContent=state.mode==="coach"?"Version 5.0 · Coach Mode uses full football language":"Version 5.0 · Analyst Mode uses compact metric abbreviations";
+ $("#brandSub").textContent=state.mode==="coach"?"Version 5.1 Mobile · Coach Mode uses full football language":"Version 5.1 Mobile · Analyst Mode uses compact metric abbreviations";
  $("#modeBtn").textContent=state.mode==="coach"?"Coach Mode":"Analyst Mode";
  document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b.dataset.nav===state.page));
  groups();
@@ -132,8 +132,16 @@ function render(){
  if(state.view==="cards")renderCards(rows);else renderTable(rows);
 }
 function setView(v){state.view=v;document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===v));render()}
-function closeDrawer(){$("#shade").classList.remove("open");$("#drawer").classList.remove("open")}
-function closeCompare(){$("#compareShade").classList.remove("open");$("#compareModal").classList.remove("open")}
+function closeDrawer(){
+ $("#shade").classList.remove("open");
+ $("#drawer").classList.remove("open");
+ document.body.style.overflow="";
+}
+function closeCompare(){
+ $("#compareShade").classList.remove("open");
+ $("#compareModal").classList.remove("open");
+ document.body.style.overflow="";
+}
 function tab(id,labelText,content,active=false){return {button:`<button class="tab ${active?"active":""}" data-tab="${id}">${labelText}</button>`,panel:`<section class="panel ${active?"active":""}" id="${id}">${content}</section>`}}
 function routePanel(p){
  const run=p.routeTree?Object.entries(p.routeTree).filter(([,c])=>c>0).sort((a,b)=>b[1]-a[1]).slice(0,5):[];
@@ -777,18 +785,25 @@ function openPlayer(id){
  const key=`notes_${p.teamCode}_${p.side}_${p.id}`;
  add(tab("notes","Coach Notes",`<textarea class="notes" id="notesBox">${esc(localStorage.getItem(key)||"")}</textarea>`));
  $("#drawerBody").innerHTML=`<div class="profile-hero">${photo(p,"photo")}<div class="profile-info"><div class="profile-name">${esc(p.name)}</div><div class="profile-pos">${esc(p.rosterPos||p.pffPos)} · PFF ${esc(p.pffPos||"")}</div><div class="meta">${esc(p.height||"")} · ${p.weight||""} lbs · ${esc(p.classYear||"")}<br>${esc(p.hometown||"")}<br>${p.previous?"Previous: "+esc(p.previous):""}</div><a class="bio-link" href="${p.bio||p.profile||"#"}" target="_blank">Official Roster Bio</a><div class="ai-box"><div class="ai-label">Automated Summary</div><div class="ai-summary">${aiSummary(p)}</div></div><div style="margin-top:10px"><button class="compare-run" id="profileCompare">Compare This Player</button></div></div></div><div class="tabs">${tabs.join("")}</div>${panels.join("")}`;
- document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$("#"+b.dataset.tab).classList.add("active")}));
+ document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");
+ $("#"+b.dataset.tab).classList.add("active");
+ b.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"})}));
  bindEnhancedRouteDashboard($("#drawerBody"));
  document.querySelectorAll("[data-rmode]").forEach(b=>b.addEventListener("click",()=>{const w=b.closest(".route-wrap");w.querySelectorAll("[data-rmode]").forEach(x=>x.classList.remove("active"));b.classList.add("active");const target=b.dataset.rmode==="target";w.querySelector(".route-run").classList.toggle("hidden",target);w.querySelector(".route-target").classList.toggle("hidden",!target)}));
  $("#profileCompare").addEventListener("click",()=>openCompare(p.id));
  const n=$("#notesBox");if(n){let t;n.addEventListener("input",()=>{clearTimeout(t);t=setTimeout(()=>localStorage.setItem(key,n.value),250)})}
- $("#shade").classList.add("open");$("#drawer").classList.add("open");
+ $("#shade").classList.add("open");
+ $("#drawer").classList.add("open");
+ document.body.style.overflow="hidden";
+ $("#drawer").scrollTop=0;
 }
 function openCompare(firstId=null){
  const first=DATA.players.find(p=>p.id===firstId);const side=first?first.side:state.page;const opts=DATA.players.filter(p=>p.team===state.team&&p.side===side);
  $("#compareBody").innerHTML=`<div class="compare-selects"><select id="compareA"><option value="">Choose first player...</option>${opts.map(p=>`<option value="${p.id}" ${p.id===firstId?"selected":""}>${esc(p.name)} · ${esc(p.rosterPos||p.pffPos)}</option>`).join("")}</select><select id="compareB"><option value="">Choose second player...</option>${opts.filter(p=>p.id!==firstId).map(p=>`<option value="${p.id}">${esc(p.name)} · ${esc(p.rosterPos||p.pffPos)}</option>`).join("")}</select><button class="compare-run" id="runCompare">Run Comparison</button></div><div id="compareResults"></div>`;
  $("#runCompare").addEventListener("click",()=>{const a=DATA.players.find(p=>p.id===Number($("#compareA").value)),b=DATA.players.find(p=>p.id===Number($("#compareB").value));if(!a||!b)return;$("#compareResults").innerHTML=`<div class="compare-grid">${[a,b].map(p=>`<div class="compare-player"><div class="card-name">${esc(p.name)}</div><div class="meta">${esc(p.rosterPos||p.pffPos)} · ${p.snaps||0} snaps</div><div class="stats" style="margin-top:10px">${cardMetrics(p).replaceAll("metric","stat").replaceAll("metric-label","stat-label").replaceAll("metric-value","stat-value")}</div><div class="ai-box"><div class="ai-summary">${aiSummary(p)}</div></div></div>`).join("")}</div>`});
- $("#compareShade").classList.add("open");$("#compareModal").classList.add("open");
+ $("#compareShade").classList.add("open");
+ $("#compareModal").classList.add("open");
+ document.body.style.overflow="hidden";
 }
 function ask(){
  const q=$("#search").value.trim().toLowerCase();if(!q)return;
